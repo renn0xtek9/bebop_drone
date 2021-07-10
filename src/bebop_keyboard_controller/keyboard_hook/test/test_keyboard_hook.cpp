@@ -16,15 +16,15 @@ void moveLeft() {
 }
 
 void moveRight() {
-  std::cout << "right !" << std::endl;
+  std::cout << "Right !" << std::endl;
 }
 
 void takeOff() {
-  std::cout << "take off !" << std::endl;
+  std::cout << "Take off !" << std::endl;
 }
 
 void landing() {
-  std::cout << "landing !" << std::endl;
+  std::cout << "Landing !" << std::endl;
 }
 
 int main() {

@@ -31,11 +31,18 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
 #include <ros/ros.h>
 
+#include <keyboard_hook.h>
+
 
 int main(int argc, char* argv[])
 {
   ros::init(argc, argv, "bebop_keyboard_controller", ros::init_options::NoSigintHandler);
   ros::NodeHandle nh;
+  
+  
+
+
+
   ROS_INFO("bebop_driver nodelet loaded.");
   ros::spin();
   return 0;
