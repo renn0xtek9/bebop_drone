@@ -17,6 +17,8 @@ void KeyboardHook::listenToKeystroke(Display *display) {
   constexpr std::uint32_t DOWN = static_cast<std::uint32_t>(XK_Down);
   constexpr std::uint32_t LEFT = static_cast<std::uint32_t>(XK_Left);
   constexpr std::uint32_t RIGHT = static_cast<std::uint32_t>(XK_Right);
+  constexpr std::uint32_t PAGE_UP = static_cast<std::uint32_t>(XK_Page_Up);
+  constexpr std::uint32_t PAGE_DOWN = static_cast<std::uint32_t>(XK_Page_Down);
 
   auto isPressed = [&display](char *keys_return,
                               const std::uint32_t &key_name) {
@@ -24,8 +26,9 @@ void KeyboardHook::listenToKeystroke(Display *display) {
     return !!(keys_return[keycode >> 3] & (1 << (keycode & 7)));
   };
 
-  std::vector<KeyStatus> statuses{KeyStatus(UP), KeyStatus(DOWN),
-                                  KeyStatus(LEFT), KeyStatus(RIGHT)};
+  std::vector<KeyStatus> statuses{KeyStatus(UP),      KeyStatus(DOWN),
+                                  KeyStatus(LEFT),    KeyStatus(RIGHT),
+                                  KeyStatus(PAGE_UP), KeyStatus(PAGE_DOWN)};
 
   while (true) {
     std::array<char, 32> key_sequence{};
@@ -48,6 +51,12 @@ void KeyboardHook::listenToKeystroke(Display *display) {
             break;
           case RIGHT:
             std::cout << "Right is pressed" << std::endl;
+            break;
+          case PAGE_UP:
+            std::cout << "Page up is pressed" << std::endl;
+            break;
+          case PAGE_DOWN:
+            std::cout << "Page down is pressed" << std::endl;
             break;
           default:
             break;
