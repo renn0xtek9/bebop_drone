@@ -1,0 +1,7 @@
+.kdev4/
+*.kdev4
+.catkin_tools/
+build/
+devel/
+logs/
+src/bebop_autonomy/
