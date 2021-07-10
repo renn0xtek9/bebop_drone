@@ -1,28 +1,25 @@
 #include <algorithm>
 #include <chrono>
+#include <future>
 #include <iostream>
 #include <keyboard_hook.h>
+#include <mutex>
 #include <thread>
 #include <vector>
 using namespace std::chrono_literals;
 namespace bebop_keyboard_controller {
 
-void KeyboardHook::run() {
-  std::thread working_thread(this->listenToKeystroke, display_);
-  working_thread.join();
-}
+std::mutex callback_mutex;
 
-void KeyboardHook::listenToKeystroke(Display *display) {
+void KeyboardHook::run() {
   constexpr std::uint32_t UP = static_cast<std::uint32_t>(XK_Up);
   constexpr std::uint32_t DOWN = static_cast<std::uint32_t>(XK_Down);
   constexpr std::uint32_t LEFT = static_cast<std::uint32_t>(XK_Left);
   constexpr std::uint32_t RIGHT = static_cast<std::uint32_t>(XK_Right);
   constexpr std::uint32_t PAGE_UP = static_cast<std::uint32_t>(XK_Page_Up);
   constexpr std::uint32_t PAGE_DOWN = static_cast<std::uint32_t>(XK_Page_Down);
-
-  auto isPressed = [&display](char *keys_return,
-                              const std::uint32_t &key_name) {
-    KeyCode keycode = XKeysymToKeycode(display, key_name);
+  auto isPressed = [this](char *keys_return, const std::uint32_t &key_name) {
+    KeyCode keycode = XKeysymToKeycode(display_, key_name);
     return !!(keys_return[keycode >> 3] & (1 << (keycode & 7)));
   };
 
@@ -32,7 +29,7 @@ void KeyboardHook::listenToKeystroke(Display *display) {
 
   while (true) {
     std::array<char, 32> key_sequence{};
-    XQueryKeymap(display, key_sequence.data());
+    XQueryKeymap(display_, key_sequence.data());
 
     for (auto &key_status : statuses) {
       if (isPressed(key_sequence.data(), key_status.key_defined)) {
@@ -41,22 +38,22 @@ void KeyboardHook::listenToKeystroke(Display *display) {
           key_status.is_currently_pressed = true;
           switch (key_status.key_defined) {
           case UP:
-            std::cout << "Up is pressed" << std::endl;
+            m_move_forward_callback();
             break;
           case DOWN:
-            std::cout << "Down is pressed" << std::endl;
+            m_move_backward_callback();
             break;
           case LEFT:
-            std::cout << "Left is pressed" << std::endl;
+            m_move_left_callback();
             break;
           case RIGHT:
-            std::cout << "Right is pressed" << std::endl;
+            m_move_right_callback();
             break;
           case PAGE_UP:
-            std::cout << "Page up is pressed" << std::endl;
+            m_take_off_callback();
             break;
           case PAGE_DOWN:
-            std::cout << "Page down is pressed" << std::endl;
+            m_landing_callback();
             break;
           default:
             break;
@@ -66,15 +63,7 @@ void KeyboardHook::listenToKeystroke(Display *display) {
         key_status.is_currently_pressed = false;
       }
     }
-
-    // std::size_t i{};
-    // while (key_sequence[i] != '\0' and i < 32) {
-    //   std::cout << key_sequence[i];
-    //   ++i;
-    // }
-    // KeyCode keycode = XKeysymToKeycode(display, XK_Up);
     std::this_thread::sleep_for(1ms);
   }
 }
-
 } // namespace bebop_keyboard_controller

@@ -1,2 +1,2 @@
 add_executable(test_keyboard_hook test_keyboard_hook.cpp)
-target_link_libraries(test_keyboard_hook PRIVATE keyboard_hook)
+target_link_libraries(test_keyboard_hook PRIVATE keyboard_hook pthread)

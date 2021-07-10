@@ -1,23 +1,39 @@
 #include <iostream>
 #include <keyboard_hook.h>
+#include <mutex>
+#include <thread>
 
-bebop_keyboard_controller::movement_callback moveForward() {
+void moveForward() {
   std::cout << "Forward !" << std::endl;
 }
-bebop_keyboard_controller::movement_callback moveBackWard() {
+
+void moveBackWard() {
   std::cout << "Backward !" << std::endl;
 }
-bebop_keyboard_controller::movement_callback moveLeft() {
+
+void moveLeft() {
   std::cout << "Left !" << std::endl;
 }
-bebop_keyboard_controller::movement_callback moveRight() {
+
+void moveRight() {
   std::cout << "right !" << std::endl;
+}
+
+void takeOff() {
+  std::cout << "take off !" << std::endl;
+}
+
+void landing() {
+  std::cout << "landing !" << std::endl;
 }
 
 int main() {
   bebop_keyboard_controller::KeyboardHook keyboard_hook(
-      moveForward, moveBackWard, moveLeft, moveRight);
-  keyboard_hook.run();
+      moveForward, moveBackWard, moveLeft, moveRight, landing, takeOff);
+
+  std::thread keyboard_hook_thread(
+      &bebop_keyboard_controller::KeyboardHook::run, &keyboard_hook);
+  keyboard_hook_thread.join();
 
   std::cout << "End of test" << std::endl;
 }
