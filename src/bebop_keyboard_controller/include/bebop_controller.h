@@ -3,7 +3,7 @@
 #include <functional>
 namespace bebop_keyboard_controller {
 
-using callback = std::function<void()>;
+using callback = std::function<void(void)>;
 class BebopController {
 public:
   BebopController(const callback &take_off_or_land);

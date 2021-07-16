@@ -13,8 +13,13 @@ find_package(catkin REQUIRED)
 # find_package(Boost REQUIRED COMPONENTS system)
 
 
-add_subdirectory(keyboard_hook)
-add_subdirectory(bebop_controller)
+add_library(bebop_keyboard_controller 
+    src/bebop_controller.cpp
+    src/bebop_message_publisher.cpp
+    src/keyboard_hook.cpp
+)
+target_include_directories(bebop_keyboard_controller PUBLIC include)
+target_link_libraries(bebop_keyboard_controller PUBLIC X11)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -195,8 +200,16 @@ include_directories(
 ## Testing ##
 #############
 
+
+
+catkin_add_gtest(${PROJECT_NAME}-test-keyboard_hook test/test_keyboard_hook.cpp)
+target_link_libraries(${PROJECT_NAME}-test-keyboard_hook PRIVATE bebop_keyboard_controller)
+catkin_add_gtest(${PROJECT_NAME}-test-bebop_controller test/test_bebop_controller.cpp)
+target_link_libraries(${PROJECT_NAME}-test-bebop_controller PRIVATE bebop_keyboard_controller)
+
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_bebop_keyboard_controller.cpp)
+
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
