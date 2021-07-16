@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="bebop_keybaoard_controller_node" name="bebop_keyboard_controller_node" type="bebop_keyboard_contoller_node" output="screen">
+</launch>

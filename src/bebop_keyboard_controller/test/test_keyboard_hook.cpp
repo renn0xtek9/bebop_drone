@@ -28,12 +28,15 @@ void landing() {
 }
 
 int main() {
+  /*
   bebop_keyboard_controller::KeyboardHook keyboard_hook(
       moveForward, moveBackWard, moveLeft, moveRight, landing, takeOff);
 
+  
   std::thread keyboard_hook_thread(
       &bebop_keyboard_controller::KeyboardHook::run, &keyboard_hook);
   keyboard_hook_thread.join();
+  */
 
   std::cout << "End of test" << std::endl;
 }
