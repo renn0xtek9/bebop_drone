@@ -17,6 +17,9 @@ public:
 
 private:
   void hoverStationary();
+
+  callback take_off_or_land_{};
+  bool is_supposed_to_be_airborne{false};
 };
 
 } // namespace bebop_keyboard_controller
