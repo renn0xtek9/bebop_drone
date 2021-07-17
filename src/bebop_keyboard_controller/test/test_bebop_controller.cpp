@@ -4,6 +4,7 @@
 
 #include "test_utils.h"
 
+
 namespace bebop_keyboard_controller {
 
 using namespace ::testing;

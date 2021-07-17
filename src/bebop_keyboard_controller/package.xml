@@ -51,6 +51,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>X11</build_depend>
+  <build_depend>Xtst</build_depend>
   <build_depend>pthread</build_depend>
 
   <test_depend>rosunit</test_depend>

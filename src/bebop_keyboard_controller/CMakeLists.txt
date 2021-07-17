@@ -11,8 +11,7 @@ find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package(X11 REQUIRED)
-
+find_package(X11 REQUIRED COMPONENTS X11 Xtst)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -203,7 +202,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC  X11 pthread ${catkin_LIBRARIES})
 
 # src/keyboard_hook.cpp
 catkin_add_gtest(${PROJECT_NAME}-test-keyboard_hook test/test_keyboard_hook.cpp )
-target_link_libraries(${PROJECT_NAME}-test-keyboard_hook ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}-test-keyboard_hook Xtst ${PROJECT_NAME})
 
 # src/bebop_controller.cpp
 catkin_add_gtest(${PROJECT_NAME}-test-bebop_controller test/test_bebop_controller.cpp )
