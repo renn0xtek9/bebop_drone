@@ -15,7 +15,6 @@ using namespace std::chrono_literals;
 using KeyboardHook = bebop_keyboard_controller::KeyboardHook;
 
 void pressAndReleaseKey(Display *display, unsigned int keycode) {
-  displayKeymap(display);
   XTestFakeKeyEvent(display, keycode, False, CurrentTime);
   XFlush(display);
 
@@ -88,6 +87,14 @@ TEST_F(PressingOnKeys, LeftArrow) {
 
 TEST_F(PressingOnKeys, RightArrow) {
   performTest(XK_Right,mocks_.rightArrow);
+}
+
+TEST_F(PressingOnKeys, PageUp) {
+  performTest(XK_Page_Up,mocks_.pageUp);
+}
+
+TEST_F(PressingOnKeys, PageDown) {
+  performTest(XK_Page_Down,mocks_.pageDown);
 }
 
 int main(int argc, char **argv) {
